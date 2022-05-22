@@ -1,13 +1,11 @@
 {
 	"config_variables": {
 		"credential_profile": "default",
-		"num_months": 3,
-		"schema": ["Month", "UsageType", "Service", "UnblendedCost"],
-		"path": "",
-		"wbname":  "aws-cost-and-usage.xlsx"
+		"vault_name": "synology_001132211F2D_1_mapping",
+		"job_id":  "gTPPrSnnLrWrdYryspIFrXmMf8ThNp3U9n-0-cY15fuX-J4T3bWv5WJiX6JLiDX2_K8rnjxDAYYxYtLFJaK6229oIvpC"
 	},
-	"arguments": {
-		"Granularity": "MONTHLY",
+	"initiate_job_args": {
+		"vault-name": "MONTHLY",
 		"Metrics": [
 			"UnblendedCost"
 		],
