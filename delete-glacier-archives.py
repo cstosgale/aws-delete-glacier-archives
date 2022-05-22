@@ -14,8 +14,7 @@ try:
 	with open(filepath) as config_file:
 		config_json = json.load(config_file)
 		credential_profile = config_json['config_variables']['credential_profile']
-		initiate_job_args = config_json['initiate_job_args']
-		vault_name = config_json['config_variables']['vault_name']
+		vaultname = config_json['config_variables']['vaultname']
 		job_id = config_json['config_variables']['job_id']
 except Exception as error:
 	print('Invalid Config file, please check your syntax!')
@@ -23,9 +22,9 @@ except Exception as error:
 	raise SystemExit(0)
 
 initiate_job_args = {
-						'vault-name': vault_name,
-						'account-id': '-',
-						'job-parameters': '{""Type"": ""inventory-retrieval""}'
+						'vaultName': vaultname,
+						'accountId': '-',
+						'jobParameters': {"Type": "inventory-retrieval"}
 					}
 #Function to connect to AWS kick off the initial job
 def initiate_inventory_job(**args):
@@ -36,13 +35,13 @@ def initiate_inventory_job(**args):
 		try:
 			session = boto3.Session(profile_name=credential_profile)
 			client = session.client('glacier')
-			response = client.initate-job(**args)
+			response = client.initiate_job(**args)
 			job_id = response['jobId']
 			print('Inventory Retreival initiated, writing Job ID back to config file')
 			try:
 				with open(filepath, 'r') as config_file:
 					config_json = json.load(config_file)
-				config_json['job_id'] = job_id
+				config_json['config_variables']['job_id'] = job_id
 				with open(filepath, 'w') as config_file:
 					config_json = json.dump(config_json, config_file)
 				print('The Job has been initiated with the following job ID: ', job_id)
