@@ -1,0 +1,24 @@
+{
+	"config_variables": {
+		"credential_profile": "default",
+		"num_months": 3,
+		"schema": ["Month", "UsageType", "Service", "UnblendedCost"],
+		"path": "",
+		"wbname":  "aws-cost-and-usage.xlsx"
+	},
+	"arguments": {
+		"Granularity": "MONTHLY",
+		"Metrics": [
+			"UnblendedCost"
+		],
+		"GroupBy": [
+			{
+				"Type": "DIMENSION",
+				"Key": "USAGE_TYPE"}, 
+			{
+				"Type": "DIMENSION",
+				"Key": "SERVICE"
+			}
+		]
+	}
+}
