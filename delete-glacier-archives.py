@@ -111,7 +111,7 @@ def get_job_output(**args):
 	if len(job_id) == 0:
 		print('Job ID is missing, which means the Inventory Job was not initiated successfully. Please correct the error and retry')
 	else:
-			print('Getting Job Output')
+			print('Getting Job Output \n')
 			try:
 				session = boto3.Session(profile_name=credential_profile)
 				client = session.client('glacier')
@@ -123,7 +123,7 @@ def get_job_output(**args):
 				else:
 					print('There has been an unknown error communicating with AWS: ', error.response)
 				raise SystemExit(0)
-	return response
+	return json.load(response['body'])
 
 def delete_archives(**output):
 	#Function which parses through each Archive ID in the output and deletes it!
@@ -134,16 +134,15 @@ def delete_archives(**output):
 		#Loop through each item in the Archive List
 		for archiveitem in output['ArchiveList']:
 			archiveid = archiveitem['ArchiveId']
-			delete_archive_args = {
-							'vaultName': vaultname,
-							'accountId': '-',
-							'archiveId': archiveid
-						}
 			try:
-				print('Deleting Archive with Archive ID: ', archiveid)
+				print('Deleting Archive with Archive ID: ', archiveid, '\n')
 				session = boto3.Session(profile_name=credential_profile)
 				client = session.client('glacier')
-				response = client.delete_archive(delete_archive_args)
+				response = client.delete_archive(
+					vaultName=vaultname,
+					archiveId=archiveid
+				)
+				print(response, '\n')
 			except botocore.exceptions.ClientError as error:
 				if error.response['Error']['Code'] == 'ExpiredTokenException':
 					print('There has been an issue authenticating with AWS, please ensure you have a valid token named ', credential_profile, ' defined in your credentials file')
