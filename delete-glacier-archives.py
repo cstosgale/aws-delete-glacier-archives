@@ -157,3 +157,6 @@ if completed:
 					}
 	output = get_job_output(**output_job_args)
 	delete_archives(**output)
+	#Re-run the inventory so you can delete the vault!
+	print('Archives deleted, A re-inventory will be initiated. Please note you will need to wait for this to complete before being able to delete your vault, this could take up to 24 hours!')
+	completed = check_job_status(**describe_job_args)
