@@ -27,18 +27,6 @@ initiate_job_args = {
 						'accountId': '-',
 						'jobParameters': {"Type": "inventory-retrieval"}
 					}
-					
-describe_job_args = {
-						'vaultName': vaultname,
-						'accountId': '-',
-						'jobId': job_id
-					}
-					
-output_job_args = {
-						'vaultName': vaultname,
-						'accountId': '-',
-						'jobId': job_id,
-					}
 
 def initiate_inventory_job(**args):
 	#Function to connect to AWS kick off the initial job
@@ -153,9 +141,19 @@ def delete_archives(**output):
 
 #Kick off the Inventory Retreival Job
 initiate_inventory_job(**initiate_job_args)
-#Check the status of the job until it is completed
+#Check the status of the job until it is completed.
+describe_job_args = {
+						'vaultName': vaultname,
+						'accountId': '-',
+						'jobId': job_id
+					}
 completed = check_job_status(**describe_job_args)
 if completed:
 	#Get the job output and pull out the Archive IDs
+	output_job_args = {
+						'vaultName': vaultname,
+						'accountId': '-',
+						'jobId': job_id,
+					}
 	output = get_job_output(**output_job_args)
 	delete_archives(**output)
