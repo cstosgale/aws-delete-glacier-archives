@@ -86,6 +86,9 @@ def check_job_status(**args):
 				if error.response['Error']['Code'] == 'ExpiredTokenException':
 					print('There has been an issue authenticating with AWS, please ensure you have a valid token named ', credential_profile, ' defined in your credentials file')
 					print('Error Message: ', error.response['Error']['Message'])
+				elif error.response['Error']['Code'] == 'ResourceNotFoundException':
+					print('The job has not been found, most likely because it has expired. Please clear the Job ID from the config file and try again')
+					print('Error Message: ', error.response['Error']['Message'])
 				else:
 					print('There has been an unknown error communicating with AWS: ', error.response)
 				raise SystemExit(0)
